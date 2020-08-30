@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import scrolledtext
+from tkinter import scrolledtext, messagebox
 from googletrans import Translator
 
 font="'courier',10"
@@ -28,11 +28,21 @@ def traducir(x):
 
     T = Translator()
 
-    texto_a_traducir = caja_texto.get(1.0,END)
-    
-    texto_traducido = T.translate(texto_a_traducir, dest='es').text
-    
-    caja_texto2.insert(END,texto_traducido)
+    #numero_caracteres=len(caja_texto.get(1.0,END))
+    #print(numero_caracteres)
+    rangos= [(1.0, 150.0),(150.0,300.0),(300.0,450.0),(450.0,600.0),(600.0,750.0),(750.0,900.0),(900.0,1050.0),
+        (1050.0,1200.0),(1200.0,1350.0),(1350.0,1500.0),(1500.0,1650.0),(1650.0,1800.0),(1800.0,1950.0),
+        (1950.0,2100.0),(2100.0,2250.0),(2250.0,2400.0),(2400.0,2550.0),(2550.0,2700.0),(2700.0,2850.0),
+        (2850.0,3000.0),(3000.0,3150.0),(3150.0,3300.0),(3300.0,3450.0),(3450.0,3600.0),(3600.0,3750.0),
+        (3750.0,3900.0),(3900.0,4050.0),(4050.0,4200.0),(4200.0,4350.0),(4350.0,4500.0),(4500.0,4650.0),
+        (4650.0,4800.0),(4800.0,4950.0),(4950.0,5100.0),(5100.0,5250.0),(5250.0,5400.0),(5400.0,5550.0)]
+
+    for i in rangos:
+        texto=caja_texto.get(i[0],i[1]) 
+        traduccion=T.translate(texto,dest='es').text
+        caja_texto2.insert(END,traduccion)
+
+
 
     sub.mainloop()
 
@@ -64,7 +74,7 @@ def ventana_traduccion():
     global sub
 
     sub=Tk()
-    sub.title('Textro traducido')
+    sub.title('Texto traducido')
     sub.geometry('600x600+700+80')
     sub.minsize(200,200)
 
