@@ -29,11 +29,12 @@ def traducir(x):
     word_count = len(caja_texto.get(1.0,END))
     
     T = Translator()
+    lang=idioma.get()
 
     if word_count < 15000:
-
+        
         texto=caja_texto.get(1.0,END) 
-        traduccion=T.translate(texto,dest='es').text
+        traduccion=T.translate(texto,dest=lang).text
         caja_texto2.insert(END,traduccion)
 
     else: 
@@ -49,7 +50,7 @@ def traducir(x):
 
         for i in rangos:
             texto=caja_texto.get(i[0],i[1]) 
-            traduccion=T.translate(texto,dest='es').text
+            traduccion=T.translate(texto,dest=lang).text
             caja_texto2.insert(END,traduccion)
 
 
@@ -60,11 +61,12 @@ def traducir(x):
 def main():
     global root 
     global caja_texto
+    global idioma
 
     root=Tk()
     root.title('Traductor')
     root.geometry('600x600+200+80')
-    root.minsize(200,200)
+    root.minsize(480,450)
     
     caja_texto = scrolledtext.ScrolledText(root,width=5,height='2',font=font)
     caja_texto.config(selectforeground='white',selectbackground='navy',wrap=WORD)
@@ -72,12 +74,24 @@ def main():
     caja_texto.bind("<Button-3><ButtonRelease-3>", show_menu)
     #caja_texto.bind('<Return>',traducir)
 
-    boton_traducir= Button(root,text='Traducir',command=lambda:traducir(''),font=font)  
-    boton_traducir.pack(pady=10)
+    caja=Frame(root)
+    caja.pack(pady=10)
 
+    idioma=StringVar()
+    idioma.set('es')
+
+    idioma_lbl=Label(caja,text='Idioma destino:',font=font).grid(row=0,column=0,padx=10)
+    espanol_rb=Radiobutton(caja,text='Español',font=font,variable=idioma,value='es').grid(row=0,column=1,padx=10)
+    ingles_rb=Radiobutton(caja,text='Inglés',font=font,variable=idioma,value='en').grid(row=0,column=2,padx=10)
+    
+
+    boton_traducir= Button(caja,text='Traducir',command=lambda:traducir(''),font=font)  
+    boton_traducir.grid(row=0,column=3,padx=10)
+    
     menu_rclick(root)
 
     root.mainloop()
+
 
 def ventana_traduccion():
     global caja_texto2
@@ -97,6 +111,7 @@ def ventana_traduccion():
 
 
 
+if __name__ == '__main__':
 
-main()
+    main()
 
